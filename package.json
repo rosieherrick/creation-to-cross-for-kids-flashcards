@@ -1,0 +1,23 @@
+{
+  "name": "creation-to-cross-for-kids-flashcards",
+  "version": "1.0.0",
+  "description": "A flash card game for the question from Creation to the Cross - for Kids",
+  "main": "./bin/build-flashcards-content.mjs",
+  "scripts": {
+    "start": "npx serve -s .",
+    "format": "npx prettier . --write",
+    "build": "npm run build:clean && npm run build:workbox && node bin/build-flashcards-content.mjs > lessons/questions.json",
+    "build:clean": "rimraf service-worker.js workbox-*.js",
+    "build:workbox": "workbox generateSW service-worker/workbox-config.cjs",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "remark-parse": "^11.0.0",
+    "serve": "^14.2.6",
+    "unified": "^11.0.5",
+    "workbox-cli": "^7.4.1"
+  }
+}

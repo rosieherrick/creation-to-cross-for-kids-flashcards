@@ -1,0 +1,82 @@
+{
+  "background_color": "#000000",
+  "description": "A flash card game for the question from Creation to the Cross - for Kids",
+  "display": "fullscreen",
+  "id": "creation-to-cross-for-kids-flashcards",
+  "name": "Creation to the Cross - for Kids - Flash Cards",
+  "short_name": "Creation to the Cross - for Kids - Flash Cards",
+  "start_url": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "purpose": "any",
+      "sizes": "48x48",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/48.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "72x72",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/72.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "96x96",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/96.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "128x128",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/128.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "152x152",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/152.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "192x192",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/192.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/512.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "1024x1024",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/1024.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "maskable",
+      "sizes": "1024x1024",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/icons/1024.png",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "form_factor": "wide",
+      "label": "creation-to-cross-for-kids-flashcards-wide",
+      "sizes": "1396x626",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/screenshots/creation-to-cross-for-kids-flashcards-1396x626.png",
+      "type": "image/png"
+    },
+    {
+      "form_factor": "narrow",
+      "label": "creation-to-cross-for-kids-flashcards-narrow",
+      "sizes": "842x1680",
+      "src": "https://rosieherrick.github.io/creation-to-cross-for-kids-flashcards/assets/screenshots/creation-to-cross-for-kids-flashcards-842x1680.png",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+    <meta
+      name="description"
+      content="A flash card game for the question from Creation to the Cross - for Kids"
+    />
+    <title>Creation to Cross for Kids - Flash Cards</title>
+    <style>
+      :root {
+        --absent: #939194;
+        --accent-hover: #45a049;
+        --accent: #4caf50;
+        --bg-primary: #f0f0f0;
+        --bg-secondary: #ffffff;
+        --border: #cccccc;
+        --correct: #66bb6a;
+        --error: #d32f2f;
+        --input-bg: #ffffff;
+        --present: #f3b72e;
+        --success: #2e7d32;
+        --text-primary: #333333;
+        --text-secondary: #555555;
+
+        --link-color: #1a6b1a;
+        --link-hover: #0d3d0d;
+      }
+
+      [data-theme="dark"] {
+        --absent: #48494b;
+        --accent-hover: #66bb6a;
+        --accent: #4caf50;
+        --bg-primary: #1a1a2e;
+        --bg-secondary: #16213e;
+        --border: #444444;
+        --correct: #66bb6a;
+        --error: #ef5350;
+        --input-bg: #0f3460;
+        --present: #f3b72e;
+        --success: #66bb6a;
+        --text-primary: #eaeaea;
+        --text-secondary: #b0b0b0;
+
+        --link-color: #81c784;
+        --link-hover: #a5d6a7;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+        padding: 0.875rem;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+
+      .page {
+        margin: 0 auto;
+        max-width: 45rem;
+      }
+
+      .page__header {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .page__header-bar {
+        align-items: center;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .page__title {
+        color: var(--text-primary);
+        font-size: 1.3rem;
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 0;
+      }
+
+      .page__title-link--icon {
+        text-decoration: none;
+      }
+
+      .page__header-actions {
+        align-items: center;
+        display: inline-flex;
+        flex: 0 0 auto;
+        gap: 0.5rem;
+        margin-left: auto;
+      }
+
+      @media (max-width: 30rem) {
+        body {
+          padding: 0.5rem;
+        }
+
+        .page__header {
+          margin-bottom: 0.75rem;
+        }
+
+        .page__header-bar {
+          gap: 0.5rem;
+        }
+
+        .page__title {
+          flex: 1;
+        }
+
+        .page__title-link:not(.page__title-link--icon) {
+          font-size: 1.1rem;
+          white-space: normal;
+        }
+
+        .page__header-actions {
+          gap: 0.375rem;
+        }
+      }
+
+      .page__settings-toggle {
+        align-items: center;
+        background: var(--bg-secondary);
+        border: 0.0625rem solid var(--border);
+        border-radius: 999rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        display: inline-flex;
+        height: 2.625rem;
+        justify-content: center;
+        width: 2.625rem;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.2s;
+      }
+
+      .page__settings-toggle:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .page__settings-toggle:active {
+        transform: scale(0.96);
+      }
+
+      .page__settings-toggle:focus-visible {
+        outline: 0.125rem solid var(--accent);
+        outline-offset: 0.125rem;
+      }
+
+      .page__settings-toggle-icon {
+        height: 1.125rem;
+        width: 1.125rem;
+      }
+
+      .page__settings-panel {
+        background: var(--bg-secondary);
+        border: 0.0625rem solid var(--border);
+        border-radius: 0.875rem;
+        box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.08);
+        display: grid;
+        gap: 0.875rem;
+        margin-bottom: 1.25rem;
+        margin-top: 1rem;
+        overflow: hidden;
+        padding: 0.875rem;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease,
+          max-height 0.25s ease,
+          margin-top 0.25s ease;
+      }
+
+      .page__settings-panel[hidden] {
+        display: none;
+        margin-bottom: 0;
+        margin-top: -0.5rem;
+        max-height: 0;
+        opacity: 0;
+        padding-bottom: 0;
+        padding-top: 0;
+        pointer-events: none;
+        transform: translateY(-0.5rem);
+      }
+
+      .page__settings-group {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.625rem;
+      }
+
+      .page__settings-group--primary {
+        align-items: stretch;
+        display: grid;
+        gap: 0.625rem;
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+
+      .page__select {
+        background: var(--input-bg);
+        border: 0.0625rem solid var(--border);
+        border-radius: 0.375rem;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        min-height: 2.75rem;
+        padding: 0.5rem 0.75rem;
+        transition: all 0.2s;
+        width: 100%;
+      }
+
+      .page__theme-toggle {
+        align-items: center;
+        background: var(--bg-secondary);
+        border: 0.0625rem solid var(--border);
+        border-radius: 999rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        display: inline-flex;
+        flex: 0 0 auto;
+        font-size: 1.125rem;
+        justify-content: center;
+        height: 2.625rem;
+        line-height: 1;
+        padding: 0;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.2s;
+        width: 2.625rem;
+      }
+
+      .page__theme-toggle:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .page__theme-toggle:active {
+        transform: scale(0.96);
+      }
+
+      .page__select:focus-visible,
+      .page__theme-toggle:focus-visible {
+        outline: 0.125rem solid var(--accent);
+        outline-offset: 0.125rem;
+      }
+
+      .page__settings-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .page__link {
+        color: var(--link-color);
+        text-decoration: underline;
+        text-underline-offset: 0.125rem;
+      }
+
+      .page__link--no-underline {
+        text-decoration: none;
+      }
+
+      .page__link:hover {
+        color: var(--link-hover);
+      }
+
+      .page__footer {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding: 0.9375rem;
+        text-align: center;
+      }
+
+      @media (min-width: 45rem) {
+        body {
+          padding: 1.25rem;
+        }
+
+        .page__header {
+          align-items: center;
+          flex-direction: row;
+          justify-content: space-between;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="page__header">
+        <div class="page__header-bar">
+          <h1 class="page__title">
+            <a
+              class="page__link page__title-link page__title-link--icon"
+              href="#"
+              >✝️</a
+            >
+            <a
+              class="page__link page__title-link page__link--no-underline"
+              id="titleReloadLink"
+              href="#"
+              >Creation to Cross for Kids</a
+            >
+          </h1>
+          <div class="page__header-actions">
+            <button
+              class="page__theme-toggle"
+              id="themeToggle"
+              aria-label="Switch to dark theme"
+              aria-pressed="false"
+              type="button"
+            >
+              🌙
+            </button>
+            <button
+              class="page__settings-toggle"
+              id="settingsToggle"
+              aria-label="Toggle settings panel"
+              aria-controls="settingsPanel"
+              aria-expanded="false"
+              type="button"
+            >
+              <svg
+                class="page__settings-toggle-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  fill="currentColor"
+                  d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.18 7.18 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.49-.42h-3.84a.5.5 0 0 0-.49.42l-.36 2.54c-.58.23-1.12.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 7.88a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.51.4 1.05.71 1.63.94l.36 2.54a.5.5 0 0 0 .49.42h3.84a.5.5 0 0 0 .49-.42l.36-2.54c.58-.23 1.12-.54 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section
+        class="page__settings-panel"
+        id="settingsPanel"
+        aria-label="Game settings"
+        hidden
+      >
+        <div class="page__settings-group page__settings-group--primary">
+          <label class="page__settings-label" for="lessonSelect">Lesson:</label>
+          <select class="page__select" id="lessonSelect">
+            <option value="all">All Lessons</option>
+          </select>
+        </div>
+        <div class="page__settings-group page__settings-group--primary">
+          <label class="page__settings-label" for="orderSelect">Order:</label>
+          <select class="page__select" id="orderSelect">
+            <option value="sequential">Sequential</option>
+            <option value="random">Random</option>
+          </select>
+        </div>
+      </section>
+
+      <cck-flashcards id="game"></cck-flashcards>
+
+      <footer class="page__footer">
+        <p>
+          Content from
+          <a
+            class="page__link"
+            href="https://rosieherrick.github.io/creation-to-cross-for-kids/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Creation to Cross for Kids</a
+          >
+        </p>
+      </footer>
+    </div>
+
+    <script type="module">
+      const THEME_KEY = "flashcards_theme";
+      const SETTINGS_KEY = "flashcards_settings";
+
+      // Theme toggle setup
+      const themeToggle = document.getElementById("themeToggle");
+
+      function setTheme(theme) {
+        if (theme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          themeToggle.textContent = "☀️";
+          themeToggle.setAttribute("aria-pressed", "true");
+        } else {
+          document.documentElement.removeAttribute("data-theme");
+          themeToggle.textContent = "🌙";
+          themeToggle.setAttribute("aria-pressed", "false");
+        }
+        localStorage.setItem(THEME_KEY, theme);
+      }
+
+      const savedTheme =
+        localStorage.getItem(THEME_KEY) ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      setTheme(savedTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme");
+        setTheme(currentTheme === "dark" ? "light" : "dark");
+      });
+
+      // Settings toggle setup
+      const settingsToggle = document.getElementById("settingsToggle");
+      const settingsPanel = document.getElementById("settingsPanel");
+
+      settingsToggle.addEventListener("click", () => {
+        const isHidden = settingsPanel.hasAttribute("hidden");
+        if (isHidden) {
+          settingsPanel.removeAttribute("hidden");
+          settingsToggle.setAttribute("aria-expanded", "true");
+        } else {
+          settingsPanel.setAttribute("hidden", "");
+          settingsToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      class CCKFlashCards extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.state = {
+            questions: [],
+            currentCards: [],
+            currentIndex: 0,
+            showAnswer: false,
+            revealedAnswers: [],
+            settings: {
+              lesson: "all",
+              order: "sequential",
+            },
+          };
+        }
+
+        async connectedCallback() {
+          this.render();
+          this.loadSettings();
+          await this.fetchQuestions();
+          this.setupEvents();
+          this.applySettings();
+        }
+
+        loadSettings() {
+          try {
+            const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+            if (saved) {
+              this.state.settings = { ...this.state.settings, ...saved };
+            }
+          } catch (e) {
+            // Ignore parse errors
+          }
+
+          document.getElementById("lessonSelect").value =
+            this.state.settings.lesson;
+          document.getElementById("orderSelect").value =
+            this.state.settings.order;
+        }
+
+        saveSettings() {
+          localStorage.setItem(
+            SETTINGS_KEY,
+            JSON.stringify(this.state.settings),
+          );
+        }
+
+        async fetchQuestions() {
+          try {
+            const res = await fetch("lessons/questions.json");
+            const data = await res.json();
+
+            let allQuestions = [];
+            const lessonSelect = document.getElementById("lessonSelect");
+
+            data.forEach((lessonData) => {
+              // Add option to select
+              const option = document.createElement("option");
+              option.value = lessonData.lesson;
+              option.textContent = "Lesson " + lessonData.lesson;
+              lessonSelect.appendChild(option);
+
+              // Add questions
+              lessonData.questions.forEach((q) => {
+                allQuestions.push({
+                  lesson: lessonData.lesson,
+                  question: q.question,
+                  answers: q.answers,
+                });
+              });
+            });
+
+            // Restore selection if added dynamically
+            lessonSelect.value = this.state.settings.lesson;
+            this.state.questions = allQuestions;
+          } catch (e) {
+            console.error("Error loading questions:", e);
+            this.shadowRoot.innerHTML = `<div class="error">Failed to load questions.</div>`;
+          }
+        }
+
+        applySettings() {
+          const { lesson, order } = this.state.settings;
+
+          let filtered = this.state.questions;
+          if (lesson !== "all") {
+            const lessonNum = parseInt(lesson, 10);
+            filtered = filtered.filter((q) => q.lesson === lessonNum);
+          }
+
+          if (order === "random") {
+            // Shuffle
+            filtered = [...filtered].sort(() => Math.random() - 0.5);
+          }
+
+          this.state.currentCards = filtered;
+          this.state.currentIndex = 0;
+          this.state.showAnswer = false;
+          this.state.revealedAnswers = [];
+
+          this.updateUI();
+        }
+
+        setupEvents() {
+          document
+            .getElementById("lessonSelect")
+            .addEventListener("change", (e) => {
+              this.state.settings.lesson = e.target.value;
+              this.saveSettings();
+              this.applySettings();
+            });
+
+          document
+            .getElementById("orderSelect")
+            .addEventListener("change", (e) => {
+              this.state.settings.order = e.target.value;
+              this.saveSettings();
+              this.applySettings();
+            });
+
+          this.shadowRoot.addEventListener("click", (e) => {
+            const target =
+              e.target.closest("button") || e.target.closest(".card");
+            if (!target) return;
+
+            if (target.classList.contains("card")) {
+              const current = this.state.currentCards[this.state.currentIndex];
+              const hasAnswer =
+                current && current.answers && current.answers.length > 0;
+              if (!this.state.showAnswer) {
+                this.state.showAnswer = true;
+                this.state.revealedAnswers = hasAnswer
+                  ? new Array(current.answers.length).fill(false)
+                  : [];
+                this.updateUI();
+              } else {
+                this.state.showAnswer = false;
+                this.state.revealedAnswers = [];
+                this.updateUI();
+              }
+            } else if (target.id === "prevBtn") {
+              if (this.state.currentIndex > 0) {
+                this.state.currentIndex--;
+                this.state.showAnswer = false;
+                this.state.revealedAnswers = [];
+                this.updateUI();
+              }
+            } else if (target.id === "nextBtn") {
+              if (
+                this.state.currentIndex <
+                this.state.currentCards.length - 1
+              ) {
+                this.state.currentIndex++;
+                this.state.showAnswer = false;
+                this.state.revealedAnswers = [];
+                this.updateUI();
+              }
+            }
+          });
+        }
+
+        updateUI() {
+          const current = this.state.currentCards[this.state.currentIndex];
+          if (!current) {
+            this.shadowRoot.querySelector(".container").innerHTML =
+              "<div>No cards available.</div>";
+            return;
+          }
+
+          const cardEl = this.shadowRoot.querySelector(".card");
+          const questionEl = this.shadowRoot.querySelector(".question");
+          const answerEl = this.shadowRoot.querySelector(".answer");
+          const progressEl = this.shadowRoot.querySelector(".progress");
+          const prevBtn = this.shadowRoot.getElementById("prevBtn");
+          const nextBtn = this.shadowRoot.getElementById("nextBtn");
+          const backHint = this.shadowRoot.getElementById("backHint");
+
+          if (this.state.showAnswer) {
+            cardEl.classList.add("flipped");
+          } else {
+            cardEl.classList.remove("flipped");
+          }
+
+          const hasAnswer = current.answers && current.answers.length > 0;
+
+          if (
+            !this.state.revealedAnswers ||
+            this.state.revealedAnswers.length !== current.answers.length
+          ) {
+            this.state.revealedAnswers = hasAnswer
+              ? new Array(current.answers.length).fill(false)
+              : [];
+          }
+
+          // Render answer elements
+          answerEl.innerHTML = "";
+          if (hasAnswer) {
+            current.answers.forEach((ans, idx) => {
+              const item = document.createElement("div");
+              item.className = "answer-item";
+              item.dataset.index = idx;
+
+              const text = document.createElement("div");
+              text.className = "answer-text";
+              text.textContent = ans;
+              item.appendChild(text);
+
+              const cover = document.createElement("div");
+              cover.className = "answer-cover";
+
+              const label =
+                current.answers.length > 1
+                  ? `Reveal Answer ${idx + 1}`
+                  : "Reveal Answer";
+              cover.innerHTML = `<span>👁️ ${label}</span>`;
+              item.appendChild(cover);
+
+              if (this.state.revealedAnswers[idx]) {
+                item.classList.add("revealed");
+              }
+
+              item.addEventListener("click", (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (!this.state.revealedAnswers[idx]) {
+                  this.state.revealedAnswers[idx] = true;
+                  this.updateUI();
+                }
+              });
+
+              item.addEventListener(
+                "touchstart",
+                (e) => {
+                  e.stopPropagation();
+                },
+                { passive: true },
+              );
+
+              answerEl.appendChild(item);
+            });
+          } else {
+            const item = document.createElement("div");
+            item.className = "answer-item revealed";
+
+            const text = document.createElement("div");
+            text.className = "answer-text";
+            text.textContent = "No answer available.";
+            item.appendChild(text);
+
+            answerEl.appendChild(item);
+          }
+
+          const allRevealed =
+            !hasAnswer || this.state.revealedAnswers.every((r) => r);
+
+          if (allRevealed) {
+            cardEl.classList.add("revealed");
+            if (backHint) backHint.textContent = "Tap card to flip back";
+          } else {
+            cardEl.classList.remove("revealed");
+            if (backHint) backHint.textContent = "Tap each answer to reveal";
+          }
+
+          questionEl.textContent = current.question;
+          progressEl.textContent = `${this.state.currentIndex + 1} / ${this.state.currentCards.length}`;
+
+          this.shadowRoot.querySelectorAll(".lesson-badge").forEach((badge) => {
+            badge.textContent = `Lesson ${current.lesson}`;
+          });
+
+          prevBtn.disabled = this.state.currentIndex === 0;
+          nextBtn.disabled =
+            this.state.currentIndex === this.state.currentCards.length - 1;
+        }
+
+        render() {
+          this.shadowRoot.innerHTML = `
+            <style>
+              *, *::before, *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+              }
+
+              :host {
+                display: block;
+              }
+              
+              .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+                width: 100%;
+              }
+
+              .card-container {
+                perspective: 1000px;
+                -webkit-perspective: 1000px;
+                width: 100%;
+                max-width: 35rem;
+                height: 24rem;
+                max-height: 60vh;
+                min-height: 15rem;
+                flex-shrink: 0;
+                cursor: pointer;
+              }
+
+              .card {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+                transform-style: preserve-3d;
+                -webkit-transform-style: preserve-3d;
+              }
+
+              .card.flipped {
+                transform: rotateY(180deg);
+                -webkit-transform: rotateY(180deg);
+              }
+
+              .card-face {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                border-radius: 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+                text-align: center;
+                box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+                background: var(--bg-secondary);
+                border: 0.125rem solid var(--accent);
+                transform: translate3d(0, 0, 0);
+                -webkit-transform: translate3d(0, 0, 0);
+                transition: box-shadow 0.3s, border-color 0.3s;
+              }
+
+              .card:hover .card-face {
+                box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.22);
+              }
+
+              .card-front {
+                transform: rotateY(0deg) translateZ(1px);
+                -webkit-transform: rotateY(0deg) translateZ(1px);
+              }
+
+              .card-back {
+                transform: rotateY(180deg) translateZ(1px);
+                -webkit-transform: rotateY(180deg) translateZ(1px);
+                background: var(--bg-secondary);
+                border-color: var(--success);
+              }
+
+              .question {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                overflow-y: auto;
+                max-height: 100%;
+                width: 100%;
+                padding: 0.5rem;
+                transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+              }
+
+              .card.flipped .question {
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.15s ease, transform 0.15s ease;
+              }
+
+              .answer {
+                font-size: 1.5rem;
+                color: var(--text-primary);
+                overflow-y: auto;
+                max-height: 100%;
+                width: 100%;
+                padding: 0.5rem;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.15s ease, transform 0.15s ease;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: center;
+                justify-content: safe center;
+              }
+
+              .card.flipped .answer {
+                opacity: 1;
+                transform: translateY(0);
+                transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+              }
+
+              .answer-item {
+                position: relative;
+                font-size: 1.1rem;
+                border-radius: 0.75rem;
+                background: var(--bg-primary);
+                border: 0.0625rem solid var(--border);
+                width: 100%;
+                max-width: 100%;
+                min-height: 3.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                cursor: pointer;
+                overflow: hidden;
+                transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+              }
+
+              .answer-item:hover {
+                transform: translateY(-2px);
+                border-color: var(--accent);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+              }
+
+              .answer-item:active {
+                transform: translateY(0) scale(0.98);
+              }
+
+              .answer-text {
+                padding: 0.75rem 1rem;
+                opacity: 0;
+                transform: scale(0.95);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                width: 100%;
+                color: var(--text-primary);
+                line-height: 1.4;
+              }
+
+              .answer-item.revealed .answer-text {
+                opacity: 1;
+                transform: scale(1);
+                transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+              }
+
+              .answer-cover {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--input-bg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                color: var(--text-secondary);
+                font-size: 0.95rem;
+                font-weight: 600;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                border-radius: 0.65rem;
+                border: 0.0625rem solid transparent;
+              }
+
+              .answer-item:hover .answer-cover {
+                color: var(--accent-hover);
+                background: var(--bg-secondary);
+                border-color: var(--accent);
+              }
+
+              .answer-item.revealed .answer-cover {
+                opacity: 0;
+                transform: scale(1.05);
+                pointer-events: none;
+              }
+
+              .answer-cover span {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.375rem;
+              }
+
+              .lesson-badge {
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                background: var(--accent);
+                color: #fff;
+                padding: 0.25rem 0.75rem;
+                border-radius: 999rem;
+                font-size: 0.85rem;
+                font-weight: bold;
+              }
+
+              @keyframes pulse {
+                0% { opacity: 0.5; transform: translate3d(0,0,0) scale(1); }
+                50% { opacity: 0.85; transform: translate3d(0,-2px,0) scale(1.03); }
+                100% { opacity: 0.5; transform: translate3d(0,0,0) scale(1); }
+              }
+
+              .tap-hint {
+                position: absolute;
+                bottom: 1.25rem;
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+                opacity: 0.7;
+                animation: pulse 2s infinite ease-in-out;
+              }
+
+              .controls {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                width: 100%;
+                max-width: 35rem;
+                justify-content: space-between;
+              }
+
+              .btn {
+                background: var(--accent);
+                color: #fff;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 0.5rem;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s, transform 0.1s;
+              }
+
+              .btn:hover:not(:disabled) {
+                background: var(--accent-hover);
+              }
+
+              .btn:active:not(:disabled) {
+                transform: scale(0.95);
+              }
+
+              .btn:disabled {
+                background: var(--border);
+                cursor: not-allowed;
+                opacity: 0.7;
+              }
+
+              .progress {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+              }
+              
+              .error {
+                color: var(--error);
+                font-weight: bold;
+                text-align: center;
+                padding: 2rem;
+              }
+              
+              @media (max-width: 30rem) {
+                .card-container {
+                  height: 17rem;
+                  max-height: 50vh;
+                  min-height: 13rem;
+                }
+                .question, .answer {
+                  font-size: 1.2rem;
+                }
+                .card-face {
+                  padding: 1.25rem;
+                }
+                .container {
+                  gap: 1rem;
+                }
+                .controls {
+                  gap: 1rem;
+                }
+              }
+            </style>
+            
+            <div class="container">
+              <div class="card-container">
+                <div class="card">
+                  <div class="card-face card-front">
+                    <div class="lesson-badge"></div>
+                    <div class="question">Loading...</div>
+                    <div class="tap-hint">Tap to reveal</div>
+                  </div>
+                  <div class="card-face card-back">
+                    <div class="lesson-badge"></div>
+                    <div class="answer"></div>
+                    <div class="tap-hint" id="backHint">Tap to reveal</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="controls">
+                <button class="btn" id="prevBtn" disabled>Previous</button>
+                <div class="progress">0 / 0</div>
+                <button class="btn" id="nextBtn" disabled>Next</button>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      customElements.define("cck-flashcards", CCKFlashCards);
+    </script>
+    <script type="module" src="service-worker/init.mjs"></script>
+  </body>
+</html>
