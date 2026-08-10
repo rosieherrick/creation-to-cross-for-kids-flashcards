@@ -400,43 +400,45 @@
     "questions": [
       {
         "question": "Did God call Adam because God didn’t know where Adam and Eve were?",
-        "answers": []
+        "answers": [
+          "No, God knew where they were. God wanted them to come on their own and admit their sin."
+        ]
       },
       {
         "question": "Can anyone hide from God?",
-        "answers": []
+        "answers": ["No, God sees us all the time, no matter where we are."]
       },
       {
         "question": "Why did God have the right to call Adam and question him?",
-        "answers": []
+        "answers": ["Because God was Adam’s Creator and they belonged to God."]
       },
       {
         "question": "Why does God have the right to demand obedience?",
-        "answers": []
+        "answers": ["Because He gave life to everyone."]
       },
       {
         "question": "What was God's curse on the snake?",
-        "answers": []
+        "answers": ["From that time, it was to move by crawling on its belly."]
       },
       {
         "question": "Who did God promise to send?",
-        "answers": []
+        "answers": ["A Savior."]
       },
       {
         "question": "Why did God promise to send a Savior?",
-        "answers": []
+        "answers": ["Because God loves all people."]
       },
       {
         "question": "Did Adam and Eve deserve God’s love and promise of a Savior?",
-        "answers": []
+        "answers": ["No, they deserved everlasting punishment."]
       },
       {
         "question": "Who are the parents of all people?",
-        "answers": []
+        "answers": ["Adam and Eve."]
       },
       {
         "question": "Why do all people have to die?",
-        "answers": []
+        "answers": ["Because Adam disobeyed God, all Adam’s descendants die."]
       }
     ]
   },
@@ -446,11 +448,13 @@
     "questions": [
       {
         "question": "Why did God refuse the clothes which Adam and Eve made?",
-        "answers": []
+        "answers": [
+          "Because God wanted to show them that they can’t do anything themselves to fix things and make themselves acceptable to Him."
+        ]
       },
       {
         "question": "Is there anything that anyone can do themselves to be acceptable to God?",
-        "answers": []
+        "answers": ["No."]
       },
       {
         "question": "What are some of the things people might do to try to make themselves acceptable to God?",
@@ -458,35 +462,41 @@
       },
       {
         "question": "Will God accept any of these?",
-        "answers": []
+        "answers": ["Will God accept any of these?", "No."]
       },
       {
         "question": "Who is the only one that can make Adam and Eve acceptable to God?",
-        "answers": []
+        "answers": ["God."]
       },
       {
         "question": "Why did God kill animals to make clothing for Adam and Eve?",
-        "answers": []
+        "answers": [
+          "Because God was reminding Adam and Eve that the punishment for sin is death."
+        ]
       },
       {
         "question": "Why did God put them outside the garden of Eden?",
-        "answers": []
+        "answers": [
+          "So that they didn’t eat from the tree of life and then live forever."
+        ]
       },
       {
         "question": "What did God put at the edge of the garden to keep Adam and Eve out?",
-        "answers": []
+        "answers": [
+          "He put angels called cherubim and a sword of fire that flashed every direction."
+        ]
       },
       {
         "question": "Where were Cain and Abel born?",
-        "answers": []
+        "answers": ["Outside the garden."]
       },
       {
         "question": "Why were Cain and Abel born separated from God?",
-        "answers": []
+        "answers": ["Because Adam is their father."]
       },
       {
         "question": "Why are we born separated from God?",
-        "answers": []
+        "answers": ["Because Adam is our father."]
       }
     ]
   },
